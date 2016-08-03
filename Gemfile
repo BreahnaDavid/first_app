@@ -1,25 +1,27 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'jbuilder', '~> 2.0'
+gem 'jquery-rails', '4.0.4'
 gem 'rails', '4.2.6'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
-gem 'jquery-rails', '3.0.4'
-gem 'turbolinks'
-gem 'jbuilder', '~> 2.0'
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'turbolinks', '1.1.1'
 
 group :development, :test do
   gem 'byebug'
+  gem 'sqlite3'
+  gem 'rspec-rails', '~> 3.0'
 end
 
-group :development do
-  gem 'web-console', '~> 2.0'
+group :test do
+  gem 'capybara', '2.7.0'
+  gem 'selenium-webdriver'
+end
 
-  gem 'spring'
-  gem 'sqlite3'
+group :doc do
+  gem 'sdoc', '~> 0.4.0', require: false
 end
 
 group :production do
