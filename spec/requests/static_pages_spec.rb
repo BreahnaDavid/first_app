@@ -7,6 +7,7 @@ describe 'Static Pages' do
 
       expect(page).to have_content('Sample App')
     end
+
     it 'should have right title' do
        visit 'static_pages/home'
 
@@ -20,6 +21,7 @@ describe 'Static Pages' do
 
       expect(page).to have_content('Help')
     end
+
     it 'should have right title' do
        visit 'static_pages/help'
 
@@ -33,10 +35,25 @@ describe 'Static Pages' do
 
       expect(page).to have_content('About Us')
     end
+
     it 'should have right title' do
        visit 'static_pages/about'
 
        expect(page).to have_title('RoR | About Us')
+    end
+  end
+
+  describe 'Contant Page' do
+    it "should have the content 'Contact'" do
+      visit 'static_pages/contact'
+
+      expect(page).to have_content('Contact')
+    end
+
+    it 'should have right title' do
+       visit 'static_pages/contact'
+
+       expect(page).to have_title('RoR | Contact')
     end
   end
 end
