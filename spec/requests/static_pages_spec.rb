@@ -1,65 +1,39 @@
 require 'rails_helper'
 
 describe 'Static Pages' do
+  subject { page }
+
   describe 'Home Page' do 
-    it "should have the content 'Sample App'" do
-      visit root_path
+    before { visit root_path }
 
-      expect(page).to have_content('Sample App')
-    end
+    it { is_expected.to have_content('Sample App') }
 
-    it 'should not have base title' do
-       visit root_path
+    it { is_expected.to have_title(full_title('')) }
 
-       expect(page).to have_title('RoR')
-    end
-
-    it 'it should not have custom title' do
-       visit root_path
-
-       expect(page).not_to have_title('| Home')
-    end
+    it { is_expected.not_to have_title('| Home') }
   end
 
   describe 'Help Page' do
-    it "should have the content 'Help'" do
-      visit help_path
+    before { visit help_path }
 
-      expect(page).to have_content('Help')
-    end
+    it { is_expected.to have_content('Help') }
 
-    it 'should have right title' do
-       visit help_path
-
-       expect(page).to have_title('RoR | Help')
-    end
+    it { is_expected.to have_title('RoR | Help') }
   end
 
   describe 'About Page' do
-    it "should have the content 'About Us'" do
-      visit about_path
+    before { visit about_path }
 
-      expect(page).to have_content('About Us')
-    end
+    it { is_expected.to have_content('About Us') }
 
-    it 'should have right title' do
-       visit about_path
-
-       expect(page).to have_title('RoR | About Us')
-    end
+    it { is_expected.to have_title(full_title('About Us')) }
   end
 
   describe 'Contant Page' do
-    it "should have the content 'Contact'" do
-      visit contact_path
+    before { visit contact_path }
 
-      expect(page).to have_content('Contact')
-    end
+    it { is_expected.to have_content('Contact') }
 
-    it 'should have right title' do
-       visit contact_path
-
-       expect(page).to have_title('RoR | Contact')
-    end
+    it { is_expected.to have_title(full_title('Contact')) }
   end
 end
