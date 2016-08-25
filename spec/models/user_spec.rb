@@ -63,4 +63,14 @@ describe User do
       end
     end
   end
+
+  context 'email already exists' do
+    before do
+      copy_of_user = @user.dup
+      copy_of_user.email = @user.email.upcase
+      copy_of_user.save
+    end
+
+    it { is_expected.not_to be_valid }
+  end
 end
