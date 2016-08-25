@@ -5,6 +5,8 @@ describe User do
     @user = User.new(
       name: 'Adomnita Ion',
       email: 'ion@gmail.com',
+      password: 'asda123',
+      password_confirmation: 'asda123',
     )
   end
 
@@ -13,6 +15,14 @@ describe User do
   it { is_expected.to respond_to(:name) }
 
   it { is_expected.to respond_to(:email) }
+
+  it { is_expected.to respond_to(:password_digest) }
+
+  it { is_expected.to respond_to(:password) }
+
+  it { is_expected.to respond_to(:password_confirmation) }
+
+  it { is_expected.to respond_to(:authenticate) }
 
   it { is_expected.to be_valid }
  
@@ -72,5 +82,56 @@ describe User do
     end
 
     it { is_expected.not_to be_valid }
+  end
+
+  context 'email should be saved in downcase' do
+    it do
+      mixed_email ='FOO@example.COM' 
+      @user.email = mixed_email
+      @user.save
+      expect(@user.reload.email).to eq mixed_email.downcase
+    end
+  end
+
+  context 'password is not present' do
+    before do
+      @user.password = ''
+      @user.password_confirmation = ''
+    end
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context "password doesn't match confirmation" do
+    before { @user.password_confirmation = 'haha' }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  context 'password to shoort' do
+    before do
+      @user.password = 'a' * 5
+      @user.password_confirmation = @user.password
+    end
+
+    it { is_expected.not_to be_valid }
+  end
+
+  describe '#authenticate' do
+    before { @user.save }
+
+    let(:found_user) { User.find_by(email: @user.email) }
+
+    it 'with valid password' do
+      is_expected.to eq(
+        found_user.authenticate(@user.password)
+      )
+    end
+
+    it 'with invalid password' do
+      found_invalid_user = found_user.authenticate('invalid')
+
+      expect(found_invalid_user).to be_falsey
+    end
   end
 end
