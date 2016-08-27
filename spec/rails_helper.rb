@@ -10,9 +10,9 @@ require 'capybara/dsl'
 require 'capybara/rails'
 
 Capybara.configure do |c|
-    c.run_server = false
-    c.default_driver = :selenium
-    c.app_host = "http://localhost:3000"
+    c.run_server = true
+    c.server_port = 7000
+    c.app_host = "http://localhost:#{c.server_port}"
 end
 
 # Add additional requires below this line. Rails is not loaded until this point!
