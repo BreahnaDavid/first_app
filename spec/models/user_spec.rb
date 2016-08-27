@@ -103,7 +103,7 @@ describe User do
   end
 
   context "password doesn't match confirmation" do
-    before { @user.password_confirmation = 'haha' }
+    before { @user.password_confirmation = nil }
 
     it { is_expected.not_to be_valid }
   end

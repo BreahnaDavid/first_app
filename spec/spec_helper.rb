@@ -1,11 +1,3 @@
-require 'capybara'
-require 'capybara/dsl'
-
-Capybara.configure do |c|
-    c.run_server = false
-    c.default_driver = :selenium
-    c.app_host = "http://localhost:3000"
-end
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -17,6 +9,4 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
-
-  config.include  Capybara::DSL
 end

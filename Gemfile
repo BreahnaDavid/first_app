@@ -11,6 +11,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks', '1.1.1'
 gem 'haml'
 gem 'bcrypt-ruby', '3.1.5'
+gem 'pry'
 
 group :development, :test do
   gem 'byebug'
@@ -21,6 +22,7 @@ end
 group :test do
   gem 'capybara', '2.7.0'
   gem 'selenium-webdriver'
+  gem 'factory_girl_rails'
 end
 
 group :doc do

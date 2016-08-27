@@ -5,6 +5,15 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
+require 'capybara'
+require 'capybara/dsl'
+require 'capybara/rails'
+
+Capybara.configure do |c|
+    c.run_server = false
+    c.default_driver = :selenium
+    c.app_host = "http://localhost:3000"
+end
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -51,5 +60,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
+  config.include  Capybara::DSL
   config.include Rails.application.routes.url_helpers
+  config.include FactoryGirl::Syntax::Methods
 end
