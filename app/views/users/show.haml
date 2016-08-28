@@ -1,10 +1,8 @@
 - provide(:title, @user.name)
 
-%p
-  %strong
-    Name:
-  = @user.name
-%p
-  %strong
-    Email:
-  = @user.email
+.row
+  .col-md-3
+    %h1
+      = gravatar_for @user
+      %strong
+        = @user.name
