@@ -31,6 +31,17 @@ describe 'User Pages' do
       it 'should not create an user' do
         expect{ click_button  submit }.not_to change(User, :count)
       end
+
+      context 'should show error messages' do
+        before { click_button submit }
+
+        subject { page }
+
+        it do
+          is_expected.to have_title('Sign Up')
+          is_expected.to have_content('errors')
+        end
+      end
     end
 
     context 'with valid information' do
@@ -52,7 +63,7 @@ describe 'User Pages' do
       it 'should redirect to show page' do
         click_button submit
         expect(page).to have_title(user.name)
-        expect(page).ti have_selector(
+        expect(page).to have_selector(
           'div.alert.alert-success', text: 'Welcome'
         )
       end
