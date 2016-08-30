@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 describe 'User Pages' do
   subject { page }
 
@@ -24,7 +23,6 @@ describe 'User Pages' do
   end
 
   describe 'sign up' do
-
     before { visit signup_path }
 
     let(:submit) { 'Create my account' }
@@ -36,14 +34,27 @@ describe 'User Pages' do
     end
 
     context 'with valid information' do
-      it 'should create an user' do
-        user = build(:user)
+      let(:user) { build(:user) }
+
+      before do
         fill_in 'Name', with: user.name
         fill_in 'Email', with: user.email
         fill_in 'Password', with: user.password
         fill_in 'Confirmation', with: user.password_confirmation
+      end
 
-        expect{ click_button submit }.to change(User, :count).by(1)
+      it 'should create an user' do
+        expect { click_button submit }.to change(
+          User, :count
+        ).by(1)
+      end
+
+      it 'should redirect to show page' do
+        click_button submit
+        expect(page).to have_title(user.name)
+        expect(page).ti have_selector(
+          'div.alert.alert-success', text: 'Welcome'
+        )
       end
     end
   end
