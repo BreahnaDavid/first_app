@@ -22,6 +22,8 @@ describe User do
 
   it { is_expected.to respond_to(:password_confirmation) }
 
+  it { is_expected.to respond_to(:remember_token) }
+
   it { is_expected.to respond_to(:authenticate) }
 
   it { is_expected.to be_valid }
@@ -133,5 +135,11 @@ describe User do
 
       expect(found_invalid_user).to be_falsey
     end
+  end
+
+  context 'token is saved before create' do
+    before { @user.save }
+
+    it { expect(@user.remember_token).not_to be_blank }
   end
 end
