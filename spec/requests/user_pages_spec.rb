@@ -67,6 +67,16 @@ describe 'User Pages' do
           'div.alert.alert-success', text: 'Welcome'
         )
       end
+
+      describe 'after saving the user' do
+        before { click_button submit }
+
+        let(:signed_user) { User.find_by(email: 'example@mail.com') }
+
+        it { is_expected.to have_link('Sign Out') }
+        it { is_expected.to have_title(signed_user.name) }
+        it { is_expected.to have_selector('div.alert.alert-success', text: 'Welcome') }
+      end
     end
   end
 end

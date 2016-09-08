@@ -11,18 +11,18 @@
         - if signed_in?
           %li
             = link_to 'Users', '#'
-            %li.dropdown
-              %button.btn.btn-default.dropdown-toggle#dropdownMenu1{ type: :button, 'data-toggle': :dropdown, 'aria-expanded': :true }
-                %span.caret
-                Account
-              %ul.dropdown-menu{ 'aria-labelledby': :dropdownMenu1 }
-                %li
-                  = link_to 'Profile', current_user
-                %li
-                  = link_to 'Settings', '#'
-                %li.divider
-                %li
-                  = link_to 'Sign out', signout_path, method: :delete
+          %li.dropdown
+            %a.dropdown-toggle{ href: '#', type: :role, 'data-toggle': :dropdown, 'aria-expanded': :true }
+              Account
+              %span.caret
+            %ul.dropdown-menu
+              %li
+                = link_to 'Profile', current_user
+              %li
+                = link_to 'Settings', '#'
+              %li.divider
+              %li
+                = link_to 'Sign Out', signout_path, method: :delete
         - else
           %li
-            =link_to "Sign in", signin_path
+            =link_to "Sign In", signin_path
