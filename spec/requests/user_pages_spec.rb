@@ -74,9 +74,33 @@ describe 'User Pages' do
         let(:signed_user) { User.find_by(email: 'example@mail.com') }
 
         it { is_expected.to have_link('Sign Out') }
+
         it { is_expected.to have_title(signed_user.name) }
+
         it { is_expected.to have_selector('div.alert.alert-success', text: 'Welcome') }
       end
+    end
+  end
+
+  describe 'edit' do
+    let(:user) { create(:user) }
+
+    before { visit edit_user_path(user) }
+
+    describe 'page' do
+      it { is_expected.to have_content('Update Your Profile') }
+
+      it { is_expected.to have_title('Edit User') }
+
+      it do
+        is_expected.to have_link('Change', href: 'http://gravatar.com/emails')
+      end
+    end
+
+    describe 'with invalid information' do
+      before { click_button 'Save Changes' }
+
+      it { is_expected.to have_content('error') }
     end
   end
 end
