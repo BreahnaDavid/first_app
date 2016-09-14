@@ -51,5 +51,25 @@ describe 'Authentication' do
         it { is_expected.to have_link('Sign In') }
       end
     end
+
+    describe 'authorization' do
+      describe 'for non-signed users' do
+        let(:user) { create(:user) }
+
+        describe 'in the users controller' do
+          describe 'visiting the edit page' do
+            before { visit edit_user_path(user) }
+
+            it { is_expected.to have_title('Sign In') }
+          end
+
+          describe 'submitting to the update action' do
+            before { patch user_path(user) }
+
+            it { expect(response).to redirect_to(signin_path) }
+          end
+        end
+      end
+    end
   end
 end
