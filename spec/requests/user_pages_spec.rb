@@ -85,7 +85,10 @@ describe 'User Pages' do
   describe 'edit' do
     let(:user) { create(:user) }
 
-    before { visit edit_user_path(user) }
+    before do
+      sign_in user, capybara: true
+      visit edit_user_path(user)
+    end
 
     describe 'page' do
       it { is_expected.to have_content('Update Your Profile') }
@@ -101,6 +104,30 @@ describe 'User Pages' do
       before { click_button 'Save Changes' }
 
       it { is_expected.to have_content('error') }
+    end
+
+    describe 'with valid information' do
+      let(:new_name) { 'Habr Name' }
+
+      let(:new_email) { 'new@habrahabr.com' }
+
+      before do
+        fill_in 'Name', with: new_name
+        fill_in 'Email', with: new_email
+        fill_in 'Password', with: user.password
+        fill_in 'Confirm Password', with: user.password
+        click_button 'Save Changes'
+      end
+
+      it { is_expected.to have_title(new_name) }
+
+      it { is_expected.to have_selector('div.alert.alert-success') }
+
+      it { is_expected.to have_link('Sign Out', href: signout_path) }
+
+      specify { expect(user.reload.name).to  eq new_name }
+
+      specify { expect(user.reload.email).to eq new_email }
     end
   end
 end
