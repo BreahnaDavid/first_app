@@ -70,6 +70,28 @@ describe 'Authentication' do
           end
         end
       end
+
+      describe 'as wrong user' do
+        let(:user) { create(:user) }
+
+        let(:wrong_user) { create(:user, email: 'wrong@example.com') }
+
+        before { sign_in user }
+
+        describe 'submitting a GET request to the Users#edit action' do
+          before { get edit_user_path(wrong_user) }
+
+          it { expect(response.body).not_to include(full_title('Edit User')) }
+
+          it { expect(response).to redirect_to(root_path) }
+        end
+
+        describe 'submitting a PATCH request to the Users#update action' do
+          before { patch user_path(wrong_user) }
+
+          it { expect(response).to redirect_to(root_path) }
+        end
+      end
     end
   end
 end
