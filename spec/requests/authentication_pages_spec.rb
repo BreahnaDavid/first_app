@@ -69,6 +69,17 @@ describe 'Authentication' do
             it { expect(response).to redirect_to(signin_path) }
           end
         end
+
+        describe 'after signin in' do
+          before do
+            visit edit_user_path(user)
+            fill_in 'Email', with: user.email
+            fill_in 'Password', with: user.password
+            click_button 'Sign In'
+          end
+
+          it { is_expected.to have_title('Edit User') }
+        end
       end
 
       describe 'as wrong user' do
