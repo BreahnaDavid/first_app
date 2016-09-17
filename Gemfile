@@ -13,6 +13,7 @@ gem 'haml'
 gem 'bcrypt-ruby', '3.1.5'
 gem 'pry'
 gem 'faker', '1.6.6'
+gem 'bootstrap-will_paginate', '~> 0.0.10'
 
 group :development, :test do
   gem 'byebug'

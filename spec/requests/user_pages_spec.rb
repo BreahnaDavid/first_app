@@ -71,7 +71,7 @@ describe 'User Pages' do
       describe 'after saving the user' do
         before { click_button submit }
 
-        let(:signed_user) { User.find_by(email: 'example@mail.com') }
+        let(:signed_user) { User.find_by(email: user.email) }
 
         it { is_expected.to have_link('Sign Out') }
 
@@ -132,16 +132,27 @@ describe 'User Pages' do
   end
 
   describe 'index' do
+    let(:user) { create(:user) }
+
     before do
-      sign_in create(:user), capybara: true
-      create(:user, name: 'Valodia', email: 'valodia@example.com')
-      create(:user, name: 'Plaha', email: 'plaha@example.com')
+      sign_in user, capybara: true
       visit users_path
     end
 
-    it 'should list each user' do
-      User.all.each do |user|
-        is_expected.to have_link(user.name, href: user_path(user))
+    it { is_expected.to have_title('All Users') }
+
+    it { is_expected.to have_selector('h1', text: 'All Users') }
+
+    describe 'pagination' do
+      before(:all) { 30.times { create(:user) } }
+      after(:all) { User.delete_all }
+
+      it { is_expected.to have_selector('div.pagination') }
+
+      it 'should list each user' do
+        User.paginate(page: 1).each do |user|
+          is_expected.to have_selector('li', text: user.name)
+        end
       end
     end
   end
