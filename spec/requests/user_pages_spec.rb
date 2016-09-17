@@ -155,5 +155,38 @@ describe 'User Pages' do
         end
       end
     end
+
+    describe 'delete links' do
+      it { is_expected.not_to have_link('Delete') }
+
+      describe 'as an admin user' do
+        let(:admin) { create(:admin) }
+
+        before do
+          sign_in admin, capybara: true
+          visit users_path
+        end
+
+        it do
+          is_expected.to have_link(
+            'Delete',
+            href: user_path(User.first)
+          )
+        end
+
+        it 'should be able to delete another user' do
+          expect do
+            click_link('Delete', match: :first)
+          end.to change(User, :count).by(-1)
+        end
+
+        it do
+          is_expected.not_to have_link(
+            'Delete',
+            href: user_path(admin)
+          )
+        end
+      end
+    end
   end
 end

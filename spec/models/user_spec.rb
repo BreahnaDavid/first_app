@@ -27,6 +27,17 @@ describe User do
   it { is_expected.to respond_to(:authenticate) }
 
   it { is_expected.to be_valid }
+
+  it { is_expected.not_to be_admin }
+
+  describe "with admin attribute set to 'true'" do
+    before do
+      @user.save!
+      @user.toggle!(:admin)
+    end
+
+    it { is_expected.to be_admin }
+  end
  
   context 'name is not present' do
     before { @user.name = ' ' }
