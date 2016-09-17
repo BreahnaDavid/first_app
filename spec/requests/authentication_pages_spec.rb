@@ -37,6 +37,8 @@ describe 'Authentication' do
 
       it { is_expected.to have_title(user.name) }
 
+      it { is_expected.to have_link('Users', href: users_path) }
+
       it { is_expected.to have_link('Profile', href: user_path(user)) }
 
       it { is_expected.to have_link('Settings', href: edit_user_path(user)) }
@@ -67,6 +69,12 @@ describe 'Authentication' do
             before { patch user_path(user) }
 
             it { expect(response).to redirect_to(signin_path) }
+          end
+
+          describe 'visiting the users index' do
+            before { visit users_path }
+
+            it { is_expected.to have_title('Sign In') }
           end
         end
 

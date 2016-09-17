@@ -12,6 +12,7 @@ gem 'turbolinks', '5.0.0'
 gem 'haml'
 gem 'bcrypt-ruby', '3.1.5'
 gem 'pry'
+gem 'faker', '1.6.6'
 
 group :development, :test do
   gem 'byebug'

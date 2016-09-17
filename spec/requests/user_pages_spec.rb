@@ -130,4 +130,19 @@ describe 'User Pages' do
       specify { expect(user.reload.email).to eq new_email }
     end
   end
+
+  describe 'index' do
+    before do
+      sign_in create(:user), capybara: true
+      create(:user, name: 'Valodia', email: 'valodia@example.com')
+      create(:user, name: 'Plaha', email: 'plaha@example.com')
+      visit users_path
+    end
+
+    it 'should list each user' do
+      User.all.each do |user|
+        is_expected.to have_link(user.name, href: user_path(user))
+      end
+    end
+  end
 end
