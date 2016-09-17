@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :signed_in_user, only: [:index, :edit, :update]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: :destroy
+  before_action :non_signed, only: [:new, :create]
 
   def index
     @users = User.paginate(page: params[:page])
@@ -51,7 +52,7 @@ class UsersController < ApplicationController
       :name,
       :email,
       :password,
-      :password_confirmation,
+      :password_confirmation
     )
   end
 
@@ -70,7 +71,14 @@ class UsersController < ApplicationController
   end
 
   def admin_user
-    unless current_user.admin?
+    binding.pry if params[:id] == 198198198
+    if !current_user.admin? || params[:id] == current_user.id
+      redirect_to root_path
+    end
+  end
+
+  def non_signed
+    if signed_in?
       redirect_to root_path
     end
   end

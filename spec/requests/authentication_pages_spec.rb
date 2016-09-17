@@ -78,15 +78,25 @@ describe 'Authentication' do
           end
         end
 
-        describe 'after signin in' do
+        describe 'after signing in' do
           before do
             visit edit_user_path(user)
-            fill_in 'Email', with: user.email
-            fill_in 'Password', with: user.password
-            click_button 'Sign In'
+            sign_in user, capybara: true
           end
 
           it { is_expected.to have_title('Edit User') }
+
+          describe 'and signing in again' do
+            before do
+              click_link 'Sign Out'
+              sign_in user, capybara: true
+            end
+
+            it 'should render profile page' do
+              is_expected.to have_title(full_title(user.name))
+              is_expected.to have_content(user.name)
+            end
+          end
         end
       end
 
@@ -107,6 +117,24 @@ describe 'Authentication' do
 
         describe 'submitting a PATCH request to the Users#update action' do
           before { patch user_path(wrong_user) }
+
+          it { expect(response).to redirect_to(root_path) }
+        end
+      end
+
+      describe 'as signed user' do
+        let(:user) { create(:user) }
+
+        before { sign_in user }
+
+        describe 'submitting a GET request to the Users#new action' do
+          before { get signup_path }
+
+          it { expect(response).to redirect_to(root_path) }
+        end
+
+        describe 'submitting a POST request to the Users#new action' do
+          before { post users_path }
 
           it { expect(response).to redirect_to(root_path) }
         end
