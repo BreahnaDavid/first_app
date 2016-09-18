@@ -10,4 +10,13 @@ FactoryGirl.define do
       admin true
     end
   end
+
+  factory :micropost do
+    sequence(:id)
+    content 'blablabla lorem'
+    association(
+      :user,
+      factory: :user
+    )
+  end
 end
